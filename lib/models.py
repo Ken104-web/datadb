@@ -1,7 +1,6 @@
-from re import T
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
-from app import db
+
 
 metadata = MetaData(naming_convention={
     "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
@@ -12,34 +11,34 @@ db = SQLAlchemy(metadata=metadata)
 
 
 
-Class Employer(db.Model):
+class Employer(db.Model):
     __tablename__ = 'employers'
-    id = Column(Integer(), primary_key=True)
-    name = Column(String())
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String())
 
     #one to many with employees
-    employees = relationship('Employee', backref=backref('employer'))
+    employees = db.relationship('Employee', backref='employer')
 
     #one to many with products
-    products = relationship('Product', backref=backref('employer_too'))
+    products = db.relationship('Product', backref='employer_too')
 
 
 
-Class Employee(db.Model):
+class Employee(db.Model):
     __tablename__ = 'employees'
-    id = Column(Interger(), primary_key=True)
-    name = Column(String())
-    salary = Column(Interger())
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String())
+    salary = db.Column(db.Integer())
 
     # one to many with products
-    products = relationship('Product', backref=backref('employee_name'))
+    products = db.relationship('Product', backref='employee_name')
 
-Class Products(db.Model):
+class Products(db.Model):
     __tablename__ = 'products'
-    id = Column(Interger(), primary_key=True)
-    product_name = (String())
-    product_price = (Interger())
-    employer_id = Column(Integer(), ForeignKey('employers.id'))
-    employee_id = Column(Integer(), ForeignKey('employees.id'))
+    id = db.Column(db.Integer(), primary_key=True)
+    product_name = db.Column(db.String())
+    product_price = db.Column(db.Integer())
+    employer_id = db.Column(db.Integer(), db.ForeignKey('employers.id'))
+    employee_id = db.Column(db.Integer(), db.ForeignKey('employees.id'))
 
 
